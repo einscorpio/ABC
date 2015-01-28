@@ -1,0 +1,102 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr}
+  %\usepackage[utf8]{inputenc}
+---
+
+Motivation 
+==================
+
+#### *"Write software as if you were writing for someone else - for in six months you will be someone else!" - Brian Kernighan and P. J. Plauger*
+
+- Reproducible 
+- Transparent
+- Flexible/Robust
+- Accessible
+
+***
+
+Useful resources:
+====================
+
+- Creating R packages in R studio - [Jeff Allen's Youtube][1]
+- Analyses as Packages - [Robert M Flight's post on R-bloggers][2]
+- Literate statistical programming with knitr - [Roger Peng's Youtube][3]
+- Online book - [R packages by Hadley Wickham][4] 
+- General guidence - [Writing R extensions][5]  
+
+***
+
+Required Packages/Sofwares Preparation 
+========================================
+
+- Devtool
+- Roxygen2 
+- Knitr 
+
+***
+
+Workflow
+===========================
+#### Step 1 : Start a project in RStudio and set up a set of project options:        
+    - Set default sweave engine - Knitr
+    - Function documentation - Roxygen2
+
+#### Step 2 : Write sripts 
+      - getSquareSum.R
+      - calPI.R
+
+#### Step 3 : Build R packages with documentation 
+  
+    - To write a vignette, devtools::use_vignette("title")
+    - Write the content of vignettes
+    - Run devtools::build_vignettes()
+  
+    - R CMD check "package-name"
+    - R CMD build "package-name"  
+    - R CMD install "package-name"
+***
+
+Writing vignettes for a package
+=============
+
+##### Example: How to caculate PI 
+
+###### Use square sum function! 
+```{r}
+library(FirstProj)
+#You get the square sum of two input values
+squareSum(2,4)
+```
+
+
+##### Use calPI(N) function with N trials 
+```{r}
+#You calculate the PI using Monte-Carlo simulation
+result <- calPI(1000)
+cat("Estimated Pi value is", result$PI, "\n")
+```
+
+##### The idea is illustrated in the following figure
+You throw random numbers x, y in the square. Count the number of times it is in the circle. That will give you the area of circle. Or the estimated value of PI.  
+
+```{r}
+library("plotrix")
+x = runif(100, -1, 1)
+y = runif(100, -1, 1)
+plot(x, y, asp = 1, xlim = c(-1, 1))
+draw.circle(0, 0, 1, nv = 1000, border = "Red", col = NA, lty = 1, lwd = 1)
+```
+
+[1]: https://www.youtube.com/watch?v=9PyQlbAEujY
+[2]: http://www.r-bloggers.com/analyses-as-packages/
+[3]: https://www.youtube.com/watch?v=YcJb1HBc-1Q
+[4]: http://r-pkgs.had.co.nz/
+[5]: http://cran.r-project.org/doc/manuals/r-release/R-exts.html
+
+
